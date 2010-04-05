@@ -40,11 +40,12 @@ Net::FastCGI::Protocol - Provides functions to build and parse FastCGI messages.
     $octets = build_record($type, $request_id, $content);
     $record = parse_record($octets);
     $record = parse_record_body($type, $request_id, $content);
+    $string = dump_record($type, $request_id);
     $string = dump_record($type, $request_id, $content);
     
     # Stream
-    $octets = build_stream($type, $request_id, $octets);
-    $octets = build_stream($type, $request_id, $octets, $terminate);
+    $octets = build_stream($type, $request_id, $content);
+    $octets = build_stream($type, $request_id, $content, $terminate);
     
     # Begin Request
     $octets = build_begin_request($request_id, $role, $flags, $params);
@@ -83,7 +84,7 @@ I<Arguments>
 
 =item C<$request_id>
 
-An unsigned 16-bit integer. ID of the request.
+An unsigned 16-bit integer. Identifier of the request.
 
 =item C<$role>
 
@@ -102,14 +103,15 @@ that the application expects.
 
 =item C<$stdin> (optional)
 
-A string of octets containing the C<FCGI_STDIN> data. This should only be provided if 
-C<$role> is set to either C<FCGI_RESPONDER> or C<FCGI_FILTER>. Maybe C<undef> or empty. 
-Stream is terminated if provided.
+A string of octets containing the C<FCGI_STDIN> content. This should only be 
+provided if C<$role> is set to either C<FCGI_RESPONDER> or C<FCGI_FILTER>. The 
+C<FCGI_STDIN> stream is terminated if provided.
 
 =item C<$data> (optional)
 
-A string of octets containing the C<FCGI_DATA> data. This should only be provided if 
-C<$role> is set to C<FCGI_FILTER>. Maybe C<undef> or empty. Stream is terminated if provided.
+A string of octets containing the C<FCGI_DATA> content. This should only be 
+provided if C<$role> is set to C<FCGI_FILTER>. The C<FCGI_DATA> stream is 
+terminated if provided.
 
 =back
 
@@ -207,7 +209,7 @@ I<Arguments>
 
 =item C<$request_id>
 
-An unsigned 16-bit integer. ID of the request.
+An unsigned 16-bit integer. Identifier of the request.
 
 =item C<$app_status>
 
@@ -220,13 +222,13 @@ C<FCGI_CANT_MPX_CONN>, C<FCGI_OVERLOADED> or C<FCGI_UNKNOWN_ROLE>.
 
 =item C<$stdout> (optional)
 
-A string of octets containing the C<FCGI_STDOUT> data. Maybe C<undef> or empty. 
-Stream is terminated if provided.
+A string of octets containing the C<FCGI_STDOUT> content. The C<FCGI_STDOUT>
+stream is terminated if provided.
 
 =item C<$stderr> (optional)
 
-A string of octets containing the C<FCGI_STDERR> data. Maybe C<undef> or empty.
-Stream is terminated if provided.
+A string of octets containing the C<FCGI_STDERR> content. The C<FCGI_STDERR>
+stream is terminated if provided.
 
 =back
 
@@ -402,7 +404,7 @@ An unsigned 16-bit integer.
 
 =item C<$content> (optional)
 
-A string of octets containing the content, cannot exceed 65535 octets in length. May be C<undef>.
+A string of octets containing the content, cannot exceed 65535 octets in length.
 
 =back
 
@@ -444,7 +446,7 @@ An unsigned 16-bit integer.
 
 =item C<$content>
 
-A string of octets containing the stream content. May be C<undef>.
+A string of octets containing the stream content.
 
 =item C<$terminate> (optional)
 
@@ -465,7 +467,7 @@ A string of octets containing the stream.
 
 I<Note>
 
-Stream is not terminated if C<$content> is C<undef> or empty unless C<$terminate> is set.
+Stream is not terminated if C<$content> is empty unless C<$terminate> is set.
 
 C<$content> is split in segment sizes of 32760 octets (32768 - FCGI_HEADER_LEN).
 
@@ -576,7 +578,7 @@ An unsigned 16-bit integer.
 
 =item C<$content> (optional)
 
-A string of octets containing the content. Maybe C<undef>.
+A string of octets containing the content.
 
 =back
 
@@ -586,7 +588,7 @@ I<Returns>
 
 =item C<$string>
 
-A string consisting of a short (less than 100 characters) representation of record in printable US-ASCII.
+A short (less than 100 characters) string representation of the record in printable US-ASCII.
 
 =back
 
@@ -751,7 +753,7 @@ A string of octets containing at least one record.
 
 I<Returns>
 
-A hash reference which represents the record. The content depends on the
+A hash reference which represents the C<FCGI_Record>. The content depends on the
 type of record. All record types have the keys: C<type> and C<request_id>.
 
 =over 4
@@ -762,7 +764,11 @@ type of record. All record types have the keys: C<type> and C<request_id>.
 
 =item C<role>
 
+An unsigned 16-bit integer.
+
 =item C<flags>
+
+An unsigned 8-bit integer.
 
 =back
 
@@ -772,7 +778,11 @@ type of record. All record types have the keys: C<type> and C<request_id>.
 
 =item C<app_status>
 
+An unsigned 32-bit integer.
+
 =item C<protocol_status>
+
+An unsigned 8-bit integer.
 
 =back
 
@@ -790,7 +800,7 @@ type of record. All record types have the keys: C<type> and C<request_id>.
 
 =item C<content>
 
-A string of octets containing the content of the stream. Can be empty but not C<undef>.
+A string of octets containing the content of the stream.
 
 =back
 
@@ -811,6 +821,8 @@ A hash reference containing name-value pairs.
 =over 8
 
 =item C<unknown_type>
+
+An unsigned 8-bit integer.
 
 =back
 
