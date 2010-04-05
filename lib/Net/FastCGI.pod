@@ -17,10 +17,10 @@ and interoperability testing.
 
 The function oriented API is considered feature complete. L<Net::FastCGI::Protocol> 
 provides functions to build and parse all FastCGI v1.0 messages, also provided is a 
-few convenient higher level functions such as build_begin_request(), build_end_request(),
-parse_record() and dump_record().
+few convenient higher level functions such as C<build_begin_request()>, 
+C<build_end_request()>, C<parse_record()> and C<dump_record()>.
 
-Work has begun on object oriented implementation and a simple blocking IO class which is 
+Work has begun on object oriented implementation and a simple blocking I/O class which is
 intended for testing and debugging.
 
 =head1 PACKAGES
@@ -69,10 +69,6 @@ In addition to Run-Time:
 =item L<Test::HexString>.
 
 =back
-
-=head1 EXPORTS
-
-None.
 
 =head1 SEE ALSO
 
@@ -151,6 +147,11 @@ Application server implementation, built on top of L<POE>. Supports Responder ro
 Capable of multiplexing.
 
 =back
+
+=head1 SUPPORT
+
+Please report any bugs or feature requests to C<bug-net-fastcgi at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-FastCGI>.
 
 =head1 AUTHOR
 

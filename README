@@ -15,11 +15,11 @@ PROGRESS
     The function oriented API is considered feature complete.
     Net::FastCGI::Protocol provides functions to build and parse all FastCGI
     v1.0 messages, also provided is a few convenient higher level functions
-    such as build_begin_request(), build_end_request(), parse_record() and
-    dump_record().
+    such as "build_begin_request()", "build_end_request()", "parse_record()"
+    and "dump_record()".
 
     Work has begun on object oriented implementation and a simple blocking
-    IO class which is intended for testing and debugging.
+    I/O class which is intended for testing and debugging.
 
 PACKAGES
     Net::FastCGI::Constant
@@ -44,9 +44,6 @@ PREREQUISITES
     Test::More 0.47 or greater, core module since 5.6.2.
     Test::Exception.
     Test::HexString.
-
-EXPORTS
-    None.
 
 SEE ALSO
   Community
@@ -96,6 +93,11 @@ SEE ALSO
     POE::Component::FastCGI
         Application server implementation, built on top of POE. Supports
         Responder role. Capable of multiplexing.
+
+SUPPORT
+    Please report any bugs or feature requests to "bug-net-fastcgi at
+    rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-FastCGI>.
 
 AUTHOR
     Christian Hansen "chansen@cpan.org"
