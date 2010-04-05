@@ -1,8 +1,27 @@
 =head1 NAME
 
-Net::FastCGI - FastCGI
+Net::FastCGI - FastCGI Toolkit
 
 =head1 DESCRIPTION
+
+This distribution aims to provide a complete API for working with the FastCGI
+protocol.
+
+The primary goal is to provide a function oriented and object oriented API which 
+are not tied to a specific I/O model or framework.
+
+Secondary goal is to provide higher level tools/API which can be used for debugging
+and interoperability testing.
+
+=head1 PROGRESS
+
+The function oriented API is considered feature complete. L<Net::FastCGI::Protocol> 
+provides functions to build and parse all FastCGI v1.0 messages, also provided is a 
+few convenient higher level functions such as build_begin_request(), build_end_request(),
+parse_record() and dump_record().
+
+Work has begun on object oriented implementation and a simple blocking IO class which is 
+intended for testing and debugging.
 
 =head1 PACKAGES
 
@@ -95,7 +114,7 @@ L<http://cryp.to/publications/fastcgi/>
 
 =back
 
-=head2 Implementations
+=head2 Perl implementations
 
 =over 4
 

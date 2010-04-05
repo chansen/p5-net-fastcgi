@@ -17,19 +17,19 @@ The tag names are:
 
 =item C<FCGI_MAX_CONTENT_LEN>
 
-Maximum number of octets that the content component of the record can hold. (65535)
+Maximum number of octets that the content component of the record can hold. (C<65535>)
 
 =item C<FCGI_HEADER_LEN>
 
-Number of octets in C<FCGI_Header>. (8)
+Number of octets in C<FCGI_Header>. (C<8>)
 
 =item C<FCGI_VERSION_1>
 
-Value for C<version> component of C<FCGI_Header>. (1)
+Value for C<version> component of C<FCGI_Header>. (C<1>)
 
 =item C<FCGI_NULL_REQUEST_ID>
 
-Value for C<request_id> component of C<FCGI_Header>. (0)
+Value for C<request_id> component of C<FCGI_Header>. (C<0>)
 
 =back
 
@@ -165,7 +165,7 @@ Arrays containing names of value components. These are read-only.
 
 =item C<@FCGI_ROLE_NAME>
 
-    print $FCGI_TYPE_NAME[FCGI_RESPONDER]; # FCGI_RESPONDER
+    print $FCGI_ROLE_NAME[FCGI_RESPONDER]; # FCGI_RESPONDER
 
 =item C<@FCGI_PROTOCOL_STATUS_NAME>
 

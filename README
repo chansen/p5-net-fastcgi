@@ -1,7 +1,26 @@
 NAME
-    Net::FastCGI - FastCGI
+    Net::FastCGI - FastCGI Toolkit
 
 DESCRIPTION
+    This distribution aims to provide a complete API for working with the
+    FastCGI protocol.
+
+    The primary goal is to provide a function oriented and object oriented
+    API which are not tied to a specific I/O model or framework.
+
+    Secondary goal is to provide higher level tools/API which can be used
+    for debugging and interoperability testing.
+
+PROGRESS
+    The function oriented API is considered feature complete.
+    Net::FastCGI::Protocol provides functions to build and parse all FastCGI
+    v1.0 messages, also provided is a few convenient higher level functions
+    such as build_begin_request(), build_end_request(), parse_record() and
+    dump_record().
+
+    Work has begun on object oriented implementation and a simple blocking
+    IO class which is intended for testing and debugging.
+
 PACKAGES
     Net::FastCGI::Constant
         FastCGI protocol constants.
@@ -48,7 +67,7 @@ SEE ALSO
     FastCGI - The Forgotten Treasure
         <http://cryp.to/publications/fastcgi/>
 
-  Implementations
+  Perl implementations
     AnyEvent::FCGI
         Application server implementation, built on top of AnyEvent.
         Supports Responder role. Capable of multiplexing.

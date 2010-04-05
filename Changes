@@ -1,3 +1,6 @@
+0.11 
+    - Documented the goals with this distribution
+
 0.10 2010-04-02
     - Minor optimizations to avoid unnecessary copying of '$content' strings
     - Fixed dump_record() to properly insert ellipsis when truncating stream content

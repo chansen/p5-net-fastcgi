@@ -61,6 +61,8 @@ Net::FastCGI::Protocol - Provides functions to build and parse FastCGI messages.
 
 Provides functions to build and parse FastCGI messages.
 
+=head1 OCTETS
+
 Please note that all functions in this package expects octets, not unicode strings.
 It's the callers responsibility to ensure this. If any of theese functions is called
 with unicode strings containing code points above 255, they will most likely produce
