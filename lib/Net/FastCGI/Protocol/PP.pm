@@ -31,6 +31,7 @@ BEGIN {
                          is_management_type
                          is_discrete_type
                          is_stream_type
+                         get_record_length
                          get_role_name
                          get_type_name
                          get_protocol_status_name ];
@@ -174,8 +175,10 @@ sub parse_record {
     (length $_[0] >= FCGI_HEADER_LEN + $content_length)
       || throw(ERRMSG_OCTETS, q/FCGI_Record/);
 
-    return parse_record_body($type, $request_id,
-      substr($_[0], FCGI_HEADER_LEN, $content_length));
+    return wantarray 
+      ? ($type, $request_id, substr($_[0], FCGI_HEADER_LEN, $content_length))
+      : parse_record_body($type, $request_id,
+          substr($_[0], FCGI_HEADER_LEN, $content_length));
 }
 
 sub parse_record_body {
@@ -359,6 +362,14 @@ sub build_end_request {
     }
     $r .= build_end_request_record($request_id, $app_status, $protocol_status);
     return $r;
+}
+
+sub get_record_length {
+    @_ == 1 || throw(q/Usage: get_record_length(octets)/);
+    (defined $_[0] && length $_[0] >= FCGI_HEADER_LEN)
+      || return 0;
+    return FCGI_HEADER_LEN + vec($_[0], 2, 16)  # contentLength
+                           + vec($_[0], 6,  8); # paddingLength
 }
 
 sub is_known_type {

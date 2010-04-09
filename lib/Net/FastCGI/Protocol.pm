@@ -5,7 +5,7 @@ use warnings;
 
 use Carp                   qw[croak];
 use Net::FastCGI           qw[];
-use Net::FastCGI::Constant qw[:type FCGI_KEEP_CONN FCGI_MAX_CONTENT_LEN];
+use Net::FastCGI::Constant qw[:type :common FCGI_KEEP_CONN];
 
 BEGIN {
     our $VERSION   = '0.10';
@@ -29,6 +29,7 @@ BEGIN {
                          parse_record
                          parse_record_body
                          parse_unknown_type_body
+                         get_record_length
                          get_type_name
                          get_role_name
                          get_protocol_status_name
@@ -57,7 +58,7 @@ BEGIN {
     }
 
     # shared between XS and PP implementation
-    push @EXPORT_OK, 'dump_record';
+    push @EXPORT_OK, 'dump_record', 'dump_record_body';
 
     require Exporter;
     *import = \&Exporter::import;
@@ -76,7 +77,18 @@ my %ESCAPES = (
 );
 
 sub dump_record {
-    @_ == 2 || @_ == 3 || croak(q/Usage: dump_record(type, request_id [, content])/);
+    goto \&dump_record_body if (@_ == 2 || @_ == 3); # deprecated
+    @_ == 1 || croak(q/Usage: dump_record(octets)/);
+
+    my $len = get_record_length($_[0]);
+    ($len && $len <= length $_[0] && vec($_[0], 0, 8) == FCGI_VERSION_1)
+      || return '{Malformed FCGI_Record}';
+
+    return dump_record_body(parse_record($_[0]));
+}
+
+sub dump_record_body {
+    @_ == 2 || @_ == 3 || croak(q/Usage: dump_record_body(type, request_id [, content])/);
     my ($type, $request_id) = @_;
 
     my $content_length = defined $_[2] ? length $_[2] : 0;
@@ -96,7 +108,7 @@ sub dump_record {
                 my $pos = $off;
                 for ($klen, $vlen) {
                     $_ = vec($_[2], $off, 8);
-                    $_ = vec($_[2], $off, 32) & 0x7FFF_FFFF
+                    $_ = vec(substr($_[2], $off, 4), 0, 32) & 0x7FFF_FFFF
                       if $_ > 0x7F;
                     $off += $_ > 0x7F ? 4 : 1;
                 }

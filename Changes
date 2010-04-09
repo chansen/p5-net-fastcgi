@@ -1,5 +1,16 @@
 0.11 
     - Documented the goals with this project/distribution
+    - Net::FastCGI::Protocol
+      - Fixed dump_record() to properly escape FCGI_NameValuePair header
+        - Added tests for this
+      - Added get_record_length()
+        - Added documentation and tests
+      - Changed parse_record() to return a list in list context, this makes it 
+        more consistent with parse_header()
+         - Added documentation and tests this change
+      - Changed dump_record() to accept a string of octets (old behavior is 
+        still supported but deprecated, please change function call to dump_record_body())
+        This change makes it more consistent with parse_record_body().
 
 0.10 2010-04-02
     - Minor optimizations to avoid unnecessary copying of '$content' strings
