@@ -817,6 +817,8 @@ Parses a C<FCGI_Record>.
 I<Usage>
 
     $record = parse_record_body($type, $request_id, $content);
+    print $record->{type};
+    print $record->{request_id};
 
 I<Arguments>
 
@@ -963,8 +965,8 @@ I<Returns>
 
 =item C<$length>
 
-An unsigned integer containing the length of record in octets. If C<$octets> has 
-insufficient octets C<(< FCGI_HEADER_LEN)> C<0> is returned.
+An unsigned integer containing the length of record in octets. If C<$octets> 
+contains insufficient octets C<(< FCGI_HEADER_LEN)> C<0> is returned.
 
 =back
 

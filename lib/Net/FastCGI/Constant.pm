@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    our $VERSION        = '0.10';
+    our $VERSION        = '0.11';
     my @common          = qw[ FCGI_MAX_CONTENT_LEN
                               FCGI_MAX_LEN
                               FCGI_HEADER_LEN

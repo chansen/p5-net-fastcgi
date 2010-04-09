@@ -95,9 +95,9 @@ SEE ALSO
         Responder role. Capable of multiplexing.
 
 SUPPORT
-    Please report any bugs or feature requests to "bug-net-fastcgi at
-    rt.cpan.org", or through the web interface at
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-FastCGI>.
+    Please report any bugs or feature requests to
+    "bug-net-fastcgi@rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-FastCGI>
 
 AUTHOR
     Christian Hansen "chansen@cpan.org"

@@ -11,6 +11,7 @@
       - Changed dump_record() to accept a string of octets (old behavior is 
         still supported but deprecated, please change function call to dump_record_body())
         This change makes it more consistent with parse_record_body().
+          - Added documentation and tests this change
 
 0.10 2010-04-02
     - Minor optimizations to avoid unnecessary copying of '$content' strings

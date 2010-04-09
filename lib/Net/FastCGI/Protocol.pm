@@ -8,7 +8,7 @@ use Net::FastCGI           qw[];
 use Net::FastCGI::Constant qw[:type :common FCGI_KEEP_CONN];
 
 BEGIN {
-    our $VERSION   = '0.10';
+    our $VERSION   = '0.11';
     our @EXPORT_OK = qw[ build_begin_request
                          build_begin_request_body
                          build_begin_request_record

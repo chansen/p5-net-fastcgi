@@ -150,7 +150,7 @@ Capable of multiplexing.
 
 =head1 SUPPORT
 
-Please report any bugs or feature requests to C<bug-net-fastcgi at rt.cpan.org>, or through
+Please report any bugs or feature requests to C<bug-net-fastcgi@rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-FastCGI>
 
 =head1 AUTHOR
