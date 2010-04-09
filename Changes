@@ -1,4 +1,4 @@
-0.11 
+0.11 2010-04-09
     - Documented the goals with this project/distribution
     - Net::FastCGI::Protocol
       - Fixed dump_record() to properly escape FCGI_NameValuePair header
