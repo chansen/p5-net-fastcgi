@@ -125,29 +125,85 @@ C<pack()> / C<unpack()> templates
 
 =over 4
 
-=item C<FCGI_Header> 
+=item C<FCGI_Header>
 
-C<'CCnnCx'> (8 octets)
+    Octet/      0        |        1        |
+        /                |                 |
+       | 0 1 2 3 4 5 6 7 | 0 1 2 3 4 5 6 7 |
+       +-----------------+-----------------+
+     0 |     Version     |      Type       |
+       +-----------------+-----------------+
+     2 |             Request ID            |
+       +-----------------+-----------------+
+     4 |          Content Length           |
+       +-----------------+-----------------+
+     6 | Padding Length  |    Reserved     |
+       +-----------------+-----------------+
+       Total 8 octets
+
+    Template: CCnnCx
 
     my ($version, $type, $request_id, $content_length, $padding_length)
       = unpack(FCGI_Header, $octets);
 
 =item C<FCGI_BeginRequestBody> 
 
-C<'nCx5'> (8 octets)
+    Octet/      0        |        1        |
+        /                |                 |
+       | 0 1 2 3 4 5 6 7 | 0 1 2 3 4 5 6 7 |
+       +-----------------+-----------------+
+     0 |                Role               |
+       +-----------------+-----------------+
+     2 |      Flags      |                 |
+       +-----------------+                 +
+     4 |                                   |
+       +              Reserved             +
+     6 |                                   |
+       +-----------------+-----------------+
+       Total 8 octets
+
+    Template: nCx5
 
     my ($role, $flags) = unpack(FCGI_BeginRequestBody, $octets);
 
 =item C<FCGI_EndRequestBody> 
 
-C<'NCx3'> (8 octets)
+    Octet/      0        |        1        |
+        /                |                 |
+       | 0 1 2 3 4 5 6 7 | 0 1 2 3 4 5 6 7 |
+       +-----------------+-----------------+
+     0 |                                   |
+       +        Application Status         +
+     2 |                                   |
+       +-----------------+-----------------+
+     4 | Protocol Status |                 |
+       +-----------------+    Reserved     +
+     6 |                                   |
+       +-----------------+-----------------+
+       Total 8 octets
+
+    Template: NCx3
 
     my ($app_status, $protocol_status) 
       = unpack(FCGI_EndRequestBody, $octets);
 
 =item C<FCGI_UnknownTypeBody> 
 
-C<'Cx7'> (8 octets)
+    Octet/      0        |        1        |
+        /                |                 |
+       | 0 1 2 3 4 5 6 7 | 0 1 2 3 4 5 6 7 |
+       +-----------------+-----------------+
+     0 |  Unknown Type   |                 |
+       +-----------------+                 +
+     2 |                                   |
+       +                                   +
+     4 |              Reserved             |
+       +                                   +
+     6 |                                   |
+       +-----------------+-----------------+
+       Total 8 octets
+
+    Template: Cx7
 
     my $unknown_type = unpack(FCGI_UnknownTypeBody, $octets);
 

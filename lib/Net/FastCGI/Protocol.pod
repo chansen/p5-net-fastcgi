@@ -38,9 +38,11 @@ Net::FastCGI::Protocol - Provides functions to build and parse FastCGI messages.
     # FCGI_Record
     $octets = build_record($type, $request_id);
     $octets = build_record($type, $request_id, $content);
-    $record = parse_record($octets);
     @values = parse_record($octets);
+    $record = parse_record($octets);
     $record = parse_record_body($type, $request_id, $content);
+    
+    # FCGI_Record Debugging / Tracing
     $string = dump_record($octets);
     $string = dump_record_body($type, $request_id, $content);
     

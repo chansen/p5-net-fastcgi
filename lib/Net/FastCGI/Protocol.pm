@@ -80,11 +80,11 @@ sub dump_record {
     goto \&dump_record_body if (@_ == 2 || @_ == 3); # deprecated
     @_ == 1 || croak(q/Usage: dump_record(octets)/);
 
-    my $len = get_record_length($_[0]);
+    my $len = &get_record_length;
     ($len && $len <= length $_[0] && vec($_[0], 0, 8) == FCGI_VERSION_1)
       || return '{Malformed FCGI_Record}';
 
-    return dump_record_body(parse_record($_[0]));
+    return dump_record_body(&parse_record);
 }
 
 sub dump_record_body {

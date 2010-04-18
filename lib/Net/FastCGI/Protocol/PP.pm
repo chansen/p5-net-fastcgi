@@ -170,7 +170,7 @@ sub build_record {
 
 sub parse_record {
     @_ == 1 || throw(q/Usage: parse_record(octets)/);
-    my ($type, $request_id, $content_length) = parse_header($_[0]);
+    my ($type, $request_id, $content_length) = &parse_header;
 
     (length $_[0] >= FCGI_HEADER_LEN + $content_length)
       || throw(ERRMSG_OCTETS, q/FCGI_Record/);

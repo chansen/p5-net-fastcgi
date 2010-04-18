@@ -6,11 +6,12 @@ use warnings;
 use lib 't/lib', 'lib';
 use myconfig;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 BEGIN {
     use_ok('Net::FastCGI');
     use_ok('Net::FastCGI::Constant');
+    use_ok('Net::FastCGI::IO');
     use_ok('Net::FastCGI::Protocol');
 
     if ( $ENV{NET_FASTCGI_PP} ) {
