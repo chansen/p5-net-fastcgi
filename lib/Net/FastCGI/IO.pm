@@ -4,14 +4,16 @@ use warnings;
 use warnings::register;
 
 use Carp                   qw[];
-use Errno                  qw[EINTR EPIPE];
+use Errno                  qw[EBADF EINTR EPIPE];
 use Net::FastCGI::Constant qw[FCGI_HEADER_LEN];
 use Net::FastCGI::Protocol qw[build_header build_record
                               parse_header parse_record];
 
 BEGIN {
     our $VERSION   = '0.10';
-    our @EXPORT_OK = qw[ read_header
+    our @EXPORT_OK = qw[ can_read
+                         can_write
+                         read_header
                          read_record
                          write_header
                          write_record ];
@@ -20,12 +22,17 @@ BEGIN {
 
     require Exporter;
     *import = \&Exporter::import;
+
+    eval {
+        require Time::HiRes;
+                Time::HiRes->import('time');
+    };
 }
 
 *throw = \&Carp::croak;
 
 sub read_header {
-    @_ == 1 || throw(q/Usage: read_record(fh)/);
+    @_ == 1 || throw(q/Usage: read_header(fh)/);
     my ($fh) = @_;
 
     my $len = FCGI_HEADER_LEN;
@@ -134,6 +141,69 @@ sub write_record {
         }
     }
     return $off;
+}
+
+sub can_read {
+    @_ == 2 || throw(q/Usage: can_read(fh, timeout)/);
+    my ($fh, $timeout) = @_;
+
+    my $fd = fileno($fh);
+    unless (defined $fd && $fd >= 0) {
+        $! = EBADF;
+        return undef;
+    }
+
+    my $initial = time;
+    my $pending = $timeout;
+    my $nfound;
+
+    vec(my $fdset = '', $fd, 1) = 1;
+
+    while () {
+        $nfound = select($fdset, undef, undef, $pending);
+        if ($nfound == -1 && $! == EINTR) {
+            redo if !$timeout || ($pending = $timeout - (time - $initial)) > 0;
+            $nfound = 0;
+        }
+        last;
+    }
+    if ($nfound < 0) {
+        return undef;
+    }
+    # prevent nfound=0 errno=EINTR (seen on darwin)
+    $! = 0;
+    return $nfound;
+}
+
+sub can_write {
+    @_ == 2 || throw(q/Usage: can_write(fh, timeout)/);
+    my ($fh, $timeout) = @_;
+
+    my $fd = fileno($fh);
+    unless (defined $fd && $fd >= 0) {
+        $! = EBADF;
+        return undef;
+    }
+
+    my $initial = time;
+    my $pending = $timeout;
+    my $nfound;
+
+    vec(my $fdset = '', $fd, 1) = 1;
+
+    while () {
+        $nfound = select(undef, $fdset, undef, $pending);
+        if ($nfound == -1 && $! == EINTR) {
+            redo if !$timeout || ($pending = $timeout - (time - $initial)) > 0;
+            $nfound = 0;
+        }
+        last;
+    }
+    if ($nfound < 0) {
+        return undef;
+    }
+    $! = 0;
+    return $nfound;
 }
 
 1;
