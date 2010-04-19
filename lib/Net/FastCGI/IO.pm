@@ -23,10 +23,7 @@ BEGIN {
     require Exporter;
     *import = \&Exporter::import;
 
-    eval {
-        require Time::HiRes;
-                Time::HiRes->import('time');
-    };
+    eval q<use Time::HiRes 'time'>;
 }
 
 *throw = \&Carp::croak;
@@ -143,7 +140,7 @@ sub write_record {
     return $off;
 }
 
-sub can_read {
+sub can_read (*$) {
     @_ == 2 || throw(q/Usage: can_read(fh, timeout)/);
     my ($fh, $timeout) = @_;
 
@@ -161,21 +158,19 @@ sub can_read {
 
     while () {
         $nfound = select($fdset, undef, undef, $pending);
-        if ($nfound == -1 && $! == EINTR) {
+        if ($nfound == -1) {
+            return undef unless $! == EINTR;
             redo if !$timeout || ($pending = $timeout - (time - $initial)) > 0;
             $nfound = 0;
         }
         last;
-    }
-    if ($nfound < 0) {
-        return undef;
     }
     # prevent nfound=0 errno=EINTR (seen on darwin)
     $! = 0;
     return $nfound;
 }
 
-sub can_write {
+sub can_write (*$) {
     @_ == 2 || throw(q/Usage: can_write(fh, timeout)/);
     my ($fh, $timeout) = @_;
 
@@ -193,14 +188,12 @@ sub can_write {
 
     while () {
         $nfound = select(undef, $fdset, undef, $pending);
-        if ($nfound == -1 && $! == EINTR) {
+        if ($nfound == -1) {
+            return undef unless $! == EINTR;
             redo if !$timeout || ($pending = $timeout - (time - $initial)) > 0;
             $nfound = 0;
         }
         last;
-    }
-    if ($nfound < 0) {
-        return undef;
     }
     $! = 0;
     return $nfound;
