@@ -31,14 +31,7 @@ Provides unbuffered blocking I/O functions to read and write FastCGI messages.
 
 =head2 read_header
 
-Attempts to read a C<FCGI_Header> from file handle C<$fh>. If C<read_header> 
-reaches end-of-file before reading any octets, it returns a false value 
-(C<undef> in scalar context and an empty list in list context). If unsuccessful, 
-C<read_header> returns a false value and C<$!> holds the error from the 
-C<sysread> call. If C<read_header> encounters end-of-file after some but 
-not all of the needed octets, the function returns a false value and sets C<$!> 
-to C<EPIPE>. Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
-is returned.
+Attempts to read a C<FCGI_Header> from file handle C<$fh>.
 
 I<Usage>
 
@@ -65,7 +58,14 @@ mode should be set to binary.
 I<Returns>
 
 Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
-is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
+is returned. Otherwise, a false value (C<undef> in scalar context and an empty 
+list in list context).
+
+If C<read_header> reaches end-of-file before reading any octets, it returns a 
+false value. If unsuccessful, C<read_header> returns a false value and C<$!> 
+holds the error from the C<sysread> call. If C<read_header> encounters 
+end-of-file after some but not all of the needed octets, the function returns 
+a false value and sets C<$!> to C<EPIPE>.
 
 I<Implementation>
 
@@ -76,14 +76,7 @@ either all the octets have been read, reaches end-of-file or an error occurs.
 
 =head2 read_record
 
-Attempts to read a C<FCGI_Record> from file handle C<$fh>. If C<read_record> 
-reaches end-of-file before reading any octets, it returns a false value 
-(C<undef> in scalar context and an empty list in list context). If unsuccessful, 
-C<read_record> returns a false value and C<$!> holds the error from the 
-C<sysread> call. If C<read_record> encounters end-of-file after some but 
-not all of the needed octets, the function returns a false value and sets C<$!> 
-to C<EPIPE>. Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
-is returned.
+Attempts to read a C<FCGI_Record> from file handle C<$fh>.
 
 I<Usage>
 
@@ -100,15 +93,22 @@ I<Arguments>
 
 =item C<$fh>
 
-The file handle to read from. Must be a file handle with a file descriptor. File handle 
-mode should be set to binary.
+The file handle to read from. Must be a file handle with a file descriptor. 
+File handle mode should be set to binary.
 
 =back
 
 I<Returns>
 
 Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
-is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
+is returned. Otherwise, a false value (C<undef> in scalar context and an empty 
+list in list context).
+
+If C<read_record> reaches end-of-file before reading any octets, it returns a 
+false value. If unsuccessful, C<read_record> returns a false value and C<$!> 
+holds the error from the C<sysread> call. If C<read_record> encounters 
+end-of-file after some but not all of the needed octets, the function returns 
+a false value and sets C<$!> to C<EPIPE>.
 
 I<Implementation>
 
@@ -277,6 +277,9 @@ all the octets have been written or an error occurs.
 
 =head2 can_read
 
+Determines wheter or not the givien file handle C<$fh> is ready for reading 
+within the given timeout C<$timeout>.
+
 I<Usage>
 
     $result = can_read($fh, $timeout);
@@ -287,13 +290,29 @@ I<Arguments>
 
 =item C<$fh>
 
+The file handle to test for readiness. Must be a file handle with a file descriptor.
+
 =item C<$timeout>
+
+Maximum interval to wait. Can be set to either a non-negative numeric value or 
+C<undef> for infinite wait.
 
 =back
 
 I<Returns>
 
+Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> holds 
+the C<select> error.
+
+I<Implementation>
+
+The implementation calls C<select> in a loop, restarting if C<select> returns 
+C<-1> with C<$!> set to C<EINTR> and C<$timeout> has not elapsed.
+
 =head2 can_write
+
+Determines wheter or not the givien file handle C<$fh> is ready for writing 
+within the given timeout C<$timeout>.
 
 I<Usage>
 
@@ -305,11 +324,24 @@ I<Arguments>
 
 =item C<$fh>
 
+The file handle to test for readiness. Must be a file handle with a file descriptor.
+
 =item C<$timeout>
+
+Maximum interval to wait. Can be set to either a non-negative numeric value or 
+C<undef> for infinite wait.
 
 =back
 
 I<Returns>
+
+Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> holds 
+the C<select> error.
+
+I<Implementation>
+
+The implementation calls C<select> in a loop, restarting if C<select> returns 
+C<-1> with C<$!> set to C<EINTR> and C<$timeout> has not elapsed.
 
 =head1 EXPORTS
 
