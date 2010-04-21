@@ -57,9 +57,8 @@ mode should be set to binary.
 
 I<Returns>
 
-Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
-is returned. Otherwise, a false value (C<undef> in scalar context and an empty 
-list in list context).
+Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header>. 
+Otherwise, a false value (C<undef> in scalar context and an empty list in list context).
 
 If C<read_header> reaches end-of-file before reading any octets, it returns a 
 false value. If unsuccessful, C<read_header> returns a false value and C<$!> 
@@ -100,9 +99,8 @@ File handle mode should be set to binary.
 
 I<Returns>
 
-Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
-is returned. Otherwise, a false value (C<undef> in scalar context and an empty 
-list in list context).
+Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record>. 
+Otherwise, a false value (C<undef> in scalar context and an empty list in list context).
 
 If C<read_record> reaches end-of-file before reading any octets, it returns a 
 false value. If unsuccessful, C<read_record> returns a false value and C<$!> 
@@ -277,7 +275,7 @@ all the octets have been written or an error occurs.
 
 =head2 can_read
 
-Determines wheter or not the givien file handle C<$fh> is ready for reading 
+Determines wheter or not the given file handle C<$fh> is ready for reading 
 within the given timeout C<$timeout>.
 
 I<Usage>
@@ -311,7 +309,7 @@ C<-1> with C<$!> set to C<EINTR> and C<$timeout> has not elapsed.
 
 =head2 can_write
 
-Determines wheter or not the givien file handle C<$fh> is ready for writing 
+Determines wheter or not the given file handle C<$fh> is ready for writing 
 within the given timeout C<$timeout>.
 
 I<Usage>
