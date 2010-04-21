@@ -46,7 +46,7 @@ Net::FastCGI::Protocol - Provides functions to build and parse FastCGI messages.
     $string = dump_record($octets);
     $string = dump_record_body($type, $request_id, $content);
     
-    # Stream
+    # FCGI_Record Stream
     $octets = build_stream($type, $request_id, $content);
     $octets = build_stream($type, $request_id, $content, $terminate);
     
@@ -697,10 +697,10 @@ I<Usage>
       = parse_header($octets);
     
     $header = parse_header($octets);
-    print $header->{type};
-    print $header->{request_id};
-    print $header->{content_length};
-    print $header->{padding_length};
+    say $header->{type};
+    say $header->{request_id};
+    say $header->{content_length};
+    say $header->{padding_length};
 
 I<Arguments>
 
@@ -776,8 +776,8 @@ I<Usage>
       = parse_record($octets);
 
     $record = parse_record($octets);
-    print $record->{type};
-    print $record->{request_id};
+    say $record->{type};
+    say $record->{request_id};
 
 I<Arguments>
 
@@ -819,8 +819,8 @@ Parses a C<FCGI_Record>.
 I<Usage>
 
     $record = parse_record_body($type, $request_id, $content);
-    print $record->{type};
-    print $record->{request_id};
+    say $record->{type};
+    say $record->{request_id};
 
 I<Arguments>
 

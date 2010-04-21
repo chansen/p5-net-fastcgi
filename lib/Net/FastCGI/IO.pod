@@ -15,7 +15,7 @@ Net::FastCGI::IO - Provides functions to read and write FastCGI messages.
     $result = write_record($fh, $type, $request_id);
     $result = write_record($fh, $type, $request_id, $content);
     
-    # Stream
+    # FCGI_Record Stream
     $result = write_stream($fh, $type, $request_id, $content);
     $result = write_stream($fh, $type, $request_id, $content, $terminate);
     
@@ -31,17 +31,136 @@ Provides unbuffered blocking I/O functions to read and write FastCGI messages.
 
 =head2 read_header
 
+I<Usage>
+
+    ($type, $request_id, $content_length, $padding_length)
+      = read_header($fh);
+    
+    $header = read_header($fh);
+    say $header->{type};
+    say $header->{request_id};
+    say $header->{content_length};
+    say $header->{padding_length};
+
+I<Arguments>
+
+=over 4
+
+=item C<$fh>
+
+=back
+
+I<Returns>
+
 =head2 read_record
+
+I<Usage>
+
+    ($type, $request_id, $content)
+      = read_record($fh);
+    
+    $record = read_record($fh);
+    say $record->{type};
+    say $record->{request_id};
+
+I<Arguments>
+
+=over 4
+
+=item C<$fh>
+
+=back
+
+I<Returns>
 
 =head2 write_header
 
+I<Usage>
+
+    $result = write_header($fh, $type, $request_id, $content_length, $padding_length);
+
 =head2 write_record
+
+I<Usage>
+
+    $result = write_record($fh, $type, $request_id);
+    $result = write_record($fh, $type, $request_id, $content);
+
+I<Arguments>
+
+=over 4
+
+=item C<$fh>
+
+=item C<$type>
+
+An unsigned 8-bit integer.
+
+=item C<$request_id>
+
+An unsigned 16-bit integer.
+
+=item C<$content> (optional)
+
+A string of octets containing the content, cannot exceed 65535 octets in length.
+
+=back
+
+I<Returns>
 
 =head2 write_stream
 
+I<Usage>
+
+    $result = write_stream($fh, $type, $request_id, $content);
+    $result = write_stream($fh, $type, $request_id, $content, $terminate);
+
+I<Arguments>
+
+=over 4
+
+=item C<$fh>
+
+=item C<$type>
+
+An unsigned 8-bit integer.
+
+=item C<$request_id>
+
+An unsigned 16-bit integer.
+
+=item C<$content>
+
+A string of octets containing the stream content.
+
+=item C<$terminate> (optional)
+
+A boolean indicating whether or not the stream should be terminated.
+Defaults to false.
+
+=back
+
+I<Returns>
+
 =head2 can_read
 
+I<Usage>
+
+    $result = can_read($fh, $timeout);
+
+I<Arguments>
+
+I<Returns>
+
 =head2 can_write
+
+I<Usage>
+
+    $result = can_write($fh, $timeout);
+
+I<Arguments>
+
+I<Returns>
 
 =head1 EXPORTS
 
@@ -55,9 +174,9 @@ None by default. All functions can be exported using the C<:all> tag or individu
 
 Subroutine called with wrong number of arguments.
 
-=item B<(W Net::FastCGI::IO)> Could not read %s
+=item B<(W Net::FastCGI::IO)> FastCGI: Could not read %s
 
-=item B<(W Net::FastCGI::IO)> Could not write %s
+=item B<(W Net::FastCGI::IO)> FastCGI: Could not write %s
 
 =back
 
