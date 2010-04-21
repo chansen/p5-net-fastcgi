@@ -67,6 +67,13 @@ I<Returns>
 Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
 is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
 
+C<Implementation>
+
+The implementation calls C<sysread> in a loop, restarting if C<sysread> 
+returns C<undef> with C<$!> set to C<EINTR>. If C<sysread> does not provide 
+all the requested octets, C<read_header> continues to call C<sysread> until 
+either all the octets have been read, reaches end-of-file or an error occurs.
+
 =head2 read_record
 
 Attempts to read a C<FCGI_Record> from file handle C<$fh>. If C<read_record> 
@@ -102,6 +109,13 @@ I<Returns>
 
 Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
 is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
+
+C<Implementation>
+
+The implementation calls C<sysread> in a loop, restarting if C<sysread> 
+returns C<undef> with C<$!> set to C<EINTR>. If C<sysread> does not provide 
+all the requested octets, C<read_record> continues to call C<sysread> until 
+either all the octets have been read, reaches end-of-file or an error occurs.
 
 =head2 write_header
 
