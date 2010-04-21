@@ -6,7 +6,7 @@ use warnings::register;
 use Carp                   qw[];
 use Errno                  qw[EBADF EINTR EPIPE];
 use Net::FastCGI::Constant qw[FCGI_HEADER_LEN];
-use Net::FastCGI::Protocol qw[build_header build_record
+use Net::FastCGI::Protocol qw[build_header build_record build_stream
                               parse_header parse_record];
 
 BEGIN {
@@ -133,6 +133,30 @@ sub write_record {
         }
         elsif ($! != EINTR) {
             warnings::warn(qq<FastCGI: Could not write FCGI_Record: '$!'>)
+              if warnings::enabled;
+            return undef;
+        }
+    }
+    return $off;
+}
+
+sub write_stream {
+    @_ == 4 || @_ == 5 || throw(q/Usage: write_stream(fh, type, request_id, content [, terminate])/);
+    my $fh = shift;
+
+    my $buf = &build_stream;
+    my $len = length $buf;
+    my $off = 0;
+
+    while () {
+        my $r = syswrite($fh, $buf, $len, $off);
+        if (defined $r) {
+            $len -= $r;
+            $off += $r;
+            last unless $len;
+        }
+        elsif ($! != EINTR) {
+            warnings::warn(qq<FastCGI: Could not write FCGI_Record stream: '$!'>)
               if warnings::enabled;
             return undef;
         }

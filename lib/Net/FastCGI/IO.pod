@@ -1,0 +1,93 @@
+=head1 NAME
+
+Net::FastCGI::IO - Provides functions to read and write FastCGI messages.
+
+=head1 SYNOPSIS
+
+    # FCGI_Header
+    @values = read_header($fh);
+    $header = read_header($fh);
+    $result = write_header($fh, $type, $request_id, $content_length, $padding_length);
+    
+    # FCGI_Record
+    @values = read_record($fh);
+    $record = read_record($fh);
+    $result = write_record($fh, $type, $request_id);
+    $result = write_record($fh, $type, $request_id, $content);
+    
+    # Stream
+    $result = write_stream($fh, $type, $request_id, $content);
+    $result = write_stream($fh, $type, $request_id, $content, $terminate);
+    
+    # I/O ready
+    $result = can_read($fh, $timeout);
+    $result = can_write($fh, $timeout);
+
+=head1 DESCRIPTION
+
+Provides unbuffered blocking I/O functions to read and write FastCGI messages.
+
+=head1 FUNCTIONS
+
+=head2 read_header
+
+=head2 read_record
+
+=head2 write_header
+
+=head2 write_record
+
+=head2 write_stream
+
+=head2 can_read
+
+=head2 can_write
+
+=head1 EXPORTS
+
+None by default. All functions can be exported using the C<:all> tag or individually.
+
+=head1 DIAGNOSTICS
+
+=over 4
+
+=item B<(F)> Usage: %s
+
+Subroutine called with wrong number of arguments.
+
+=item B<(W Net::FastCGI::IO)> Could not read %s
+
+=item B<(W Net::FastCGI::IO)> Could not write %s
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item FastCGI Specification Version 1.0
+
+L<http://www.fastcgi.com/devkit/doc/fcgi-spec.html>
+
+=item The Common Gateway Interface (CGI) Version 1.1
+
+L<http://tools.ietf.org/html/rfc3875>
+
+=item L<Net::FastCGI::Constant>
+
+=item L<Net::FastCGI::Protocol>
+
+=back
+
+=head1 AUTHOR
+
+Christian Hansen C<chansen@cpan.org>
+
+=head1 COPYRIGHT
+
+Copyright 2008-2010 by Christian Hansen.
+
+This library is free software; you can redistribute it and/or modify 
+it under the same terms as Perl itself.
+
+
