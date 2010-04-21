@@ -31,6 +31,17 @@ Provides unbuffered blocking I/O functions to read and write FastCGI messages.
 
 =head2 read_header
 
+Attempts to read a C<FCGI_Header> from filehandle C<$fh>. If C<read_header()> 
+reaches end-of-file before reading any octets, it returns a false value 
+(C<undef> in scalar context and an empty list in list context). If unsuccessful, 
+C<read_header()> returns a false value and C<$!> holds the error from the 
+C<sysread()> call. If C<read_header()> encounters end-of-file after some but 
+not all of the needed octets, the function returns a false value and sets C<$!> 
+to C<EPIPE>. Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
+is returned.
+
+This function handles partial reads and restarts on C<EINTR>.
+
 I<Usage>
 
     ($type, $request_id, $content_length, $padding_length)
@@ -52,7 +63,21 @@ I<Arguments>
 
 I<Returns>
 
+Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_header> 
+is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
+
 =head2 read_record
+
+Attempts to read a C<FCGI_Record> from filehandle C<$fh>. If C<read_record()> 
+reaches end-of-file before reading any octets, it returns a false value 
+(C<undef> in scalar context and an empty list in list context). If unsuccessful, 
+C<read_record()> returns a false value and C<$!> holds the error from the 
+C<sysread()> call. If C<read_record()> encounters end-of-file after some but 
+not all of the needed octets, the function returns a false value and sets C<$!> 
+to C<EPIPE>. Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
+is returned.
+
+This function handles partial reads and restarts on C<EINTR>.
 
 I<Usage>
 
@@ -73,11 +98,40 @@ I<Arguments>
 
 I<Returns>
 
+Upon successful completion, the return value of L<Net::FastCGI::Protocol/parse_record> 
+is returned. Otherwise, in scalar context C<undef> and in list context an empty list.
+
 =head2 write_header
 
 I<Usage>
 
     $result = write_header($fh, $type, $request_id, $content_length, $padding_length);
+
+I<Arguments>
+
+=over 4
+
+=item C<$fh>
+
+=item C<$type>
+
+An unsigned 8-bit integer.
+
+=item C<$request_id>
+
+An unsigned 16-bit integer.
+
+=item C<$content_length>
+
+An unsigned 16-bit integer.
+
+=item C<$padding_length>
+
+An unsigned 8-bit integer.
+
+=back
+
+I<Returns>
 
 =head2 write_record
 
