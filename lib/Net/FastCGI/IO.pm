@@ -16,7 +16,8 @@ BEGIN {
                          read_header
                          read_record
                          write_header
-                         write_record ];
+                         write_record
+                         write_stream ];
 
     our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
@@ -189,7 +190,6 @@ sub can_read (*$) {
         }
         last;
     }
-    # prevent nfound=0 errno=EINTR (seen on darwin)
     $! = 0;
     return $nfound;
 }

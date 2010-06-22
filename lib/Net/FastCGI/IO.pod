@@ -62,7 +62,7 @@ Otherwise, a false value (C<undef> in scalar context and an empty list in list c
 
 If C<read_header> reaches end-of-file before reading any octets, it returns a 
 false value. If unsuccessful, C<read_header> returns a false value and C<$!> 
-holds the error from the C<sysread> call. If C<read_header> encounters 
+contains the error from the C<sysread> call. If C<read_header> encounters 
 end-of-file after some but not all of the needed octets, the function returns 
 a false value and sets C<$!> to C<EPIPE>.
 
@@ -104,7 +104,7 @@ Otherwise, a false value (C<undef> in scalar context and an empty list in list c
 
 If C<read_record> reaches end-of-file before reading any octets, it returns a 
 false value. If unsuccessful, C<read_record> returns a false value and C<$!> 
-holds the error from the C<sysread> call. If C<read_record> encounters 
+contains the error from the C<sysread> call. If C<read_record> encounters 
 end-of-file after some but not all of the needed octets, the function returns 
 a false value and sets C<$!> to C<EPIPE>.
 
@@ -157,7 +157,7 @@ I<Returns>
 =item C<$result>
 
 Upon successful completion, the number of octets actually written. Otherwise, 
-C<undef> and C<$!> holds the error from the C<syswrite> call.
+C<undef> and C<$!> contains the error from the C<syswrite> call.
 
 =back
 
@@ -207,7 +207,7 @@ I<Returns>
 =item C<$result>
 
 Upon successful completion, the number of octets actually written. Otherwise, 
-C<undef> and C<$!> holds the error from the C<syswrite> call.
+C<undef> and C<$!> contains the error from the C<syswrite> call.
 
 =back
 
@@ -262,7 +262,7 @@ I<Returns>
 =item C<$result>
 
 Upon successful completion, the number of octets actually written. Otherwise, 
-C<undef> and C<$!> holds the error from the C<syswrite> call.
+C<undef> and C<$!> contains the error from the C<syswrite> call.
 
 =back
 
@@ -299,7 +299,7 @@ C<undef> for infinite wait.
 
 I<Returns>
 
-Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> holds 
+Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> contains 
 the C<select> error.
 
 I<Implementation>
@@ -333,7 +333,7 @@ C<undef> for infinite wait.
 
 I<Returns>
 
-Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> holds 
+Upon successful completion, C<0> or C<1>. Otherwise, C<undef> and C<$!> contains 
 the C<select> error.
 
 I<Implementation>
