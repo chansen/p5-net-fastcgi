@@ -31,6 +31,10 @@ intended for testing and debugging.
 
 FastCGI protocol constants.
 
+=item L<Net::FastCGI::IO>
+
+Provides functions to read and write FastCGI messages.
+
 =item L<Net::FastCGI::Protocol>
 
 Provides functions to build and parse FastCGI messages.

@@ -25,6 +25,9 @@ PACKAGES
     Net::FastCGI::Constant
         FastCGI protocol constants.
 
+    Net::FastCGI::IO
+        Provides functions to read and write FastCGI messages.
+
     Net::FastCGI::Protocol
         Provides functions to build and parse FastCGI messages.
 
