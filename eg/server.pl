@@ -123,9 +123,17 @@ sub handle_connection {
 
 sub handle_request {
     my ($env, $stdin, $stdout, $stderr) = @_;
-    print {$stdout} "Status: 200 OK\n";
-    print {$stdout} "Content-Type: text/plain\n\n";
-    print {$stdout} map { sprintf "%-25s => %s\n", $_, $env->{$_} } sort keys %$env;
+
+    $env->{GATEWAY_INTERFACE} ||= 'CGI/1.1';
+
+    local *ENV    = $env;
+    local *STDIN  = $stdin;
+    local *STDOUT = $stdout;
+    local *STDERR = $stderr;
+
+    print "Status: 200 OK\n";
+    print "Content-Type: text/plain\n\n";
+    print map { sprintf "%-25s => %s\n", $_, $ENV{$_} } sort keys %ENV;
 }
 
 my $addr = shift(@ARGV) || 'localhost:3000';
