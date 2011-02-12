@@ -100,7 +100,8 @@ sub handle_connection {
                 }
 
                 write_stream($socket, FCGI_STDOUT, $current_id, $stdout, 1);
-                write_stream($socket, FCGI_STDERR, $current_id, $stderr, 1);
+                write_stream($socket, FCGI_STDERR, $current_id, $stderr, 1)
+                  if length $stderr;
                 write_record($socket, FCGI_END_REQUEST, $current_id,
                     build_end_request_body(0, FCGI_REQUEST_COMPLETE));
 

@@ -23,4 +23,7 @@ BEGIN {
 }
 
 diag("Net::FastCGI $Net::FastCGI::VERSION, Perl $], $^X");
+diag("NET_FASTCGI_PP=$ENV{NET_FASTCGI_PP}");
+
+
 

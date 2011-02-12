@@ -88,7 +88,7 @@ BEGIN {
         'FCGI_AbortRequestRecord',    #  2
         'FCGI_EndRequestRecord',      #  3
         'FCGI_ParamsRecord',          #  4
-        'FCGI_StdinRecord',           #  6
+        'FCGI_StdinRecord',           #  5
         'FCGI_StdoutRecord',          #  6
         'FCGI_StderrRecord',          #  7
         'FCGI_DataRecord',            #  8
