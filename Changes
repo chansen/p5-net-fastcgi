@@ -1,3 +1,8 @@
+0.14 2012-03-26
+   - No functional changes in this release
+   - Don't rely on hash keys being ordered in tests, Perl 5.18 introduces a
+     per process randomization.
+
 0.13 2011-02-12
    - No functional changes in this release
    - Added eg/runfcgi.pl, contributed by Paul Evans (LeoNerd)
