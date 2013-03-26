@@ -28,8 +28,10 @@ my @tests = (
 );
 
 foreach my $test (@tests) {
-    my $expected = $test->[0];
-    my $got      = build_params($test->[1]);
+    my ($expected, $params) = @$test;
+    my $got = join '', map {
+        build_params({ $_ => $params->{$_} })
+    } sort keys %$params;
     is_hexstr($got, $expected, 'build_params()');
 }
 
