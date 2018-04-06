@@ -275,7 +275,7 @@ all the octets have been written or an error occurs.
 
 =head2 can_read
 
-Determines wheter or not the given file handle C<$fh> is ready for reading 
+Determines whether or not the given file handle C<$fh> is ready for reading 
 within the given timeout C<$timeout>.
 
 I<Usage>
@@ -309,7 +309,7 @@ C<-1> with C<$!> set to C<EINTR> and C<$timeout> has not elapsed.
 
 =head2 can_write
 
-Determines wheter or not the given file handle C<$fh> is ready for writing 
+Determines whether or not the given file handle C<$fh> is ready for writing 
 within the given timeout C<$timeout>.
 
 I<Usage>

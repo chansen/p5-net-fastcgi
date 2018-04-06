@@ -532,7 +532,7 @@ A string of octets containing the record. String is 16 octets in length.
 
 =head2 check_params
 
-Determine wheter or not params is well-formed.
+Determine whether or not params is well-formed.
 
 I<Usage>
 
